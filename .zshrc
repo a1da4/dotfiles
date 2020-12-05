@@ -1,16 +1,7 @@
-#
-# Executes commands at the start of an interactive session.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
-# Source Prezto.
-#if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-#  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-#fi
-
 # Customize to your needs...
+# python path
+#export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH"
+export PYTHONPATH="/usr/local/bin/python3.6/site-packages:$PYTHONPATH"
 
 #単語の入力途中でもTab補完を有効化
 setopt complete_in_word
@@ -25,7 +16,7 @@ setopt list_packed
 
 # 補完機能
 autoload -U compinit
-compinit
+compinit -u
 
 # 色設定
 autoload -U colors; colors
@@ -42,3 +33,8 @@ alias ls="ls -GF"
 alias gls="gls --color"
 
 zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+
+# カレントディレクトリの表示
+PROMPT='
+%F{green}%B%m:%~%b%f
+%F{green}%B>%b%f '
