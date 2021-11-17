@@ -107,6 +107,9 @@ if has('persistent_undo')
 	set undofile
 endif
 
+" 入力し、再び入力モードに戻った際の削除に対応
+set backspace=indent,eol,start
+
 
 "################
 " 検索
@@ -153,6 +156,8 @@ endif
 
 " previm
 let g:previm_open_cmd = 'open -a Safari'
+" mypy
+let g:syntastic_python_checkers=['mypy']
 
 
 "autocmd BufWritePre *.py execute ':Black'
