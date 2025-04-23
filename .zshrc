@@ -2,6 +2,9 @@
 # python path
 #export PYTHONPATH="/usr/local/lib/python3.7/site-packages:$PYTHONPATH"
 export PYTHONPATH="/usr/local/bin/python3.6/site-packages:$PYTHONPATH"
+# home brew で install したパッケージ（ImageMagic）を参照する
+export DYLD_LIBRARY_PATH="/opt/homebrew/Cellar"
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
 #単語の入力途中でもTab補完を有効化
 setopt complete_in_word
@@ -38,3 +41,7 @@ zstyle ':completion:*' list-colors 'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'c
 PROMPT='
 %F{green}%B%m:%~%b%f
 %F{green}%B>%b%f '
+
+# ペーストした時に不要なインデントを回避
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic

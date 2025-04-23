@@ -10,7 +10,7 @@ scriptencoding utf-8
 set number
 
 " 現在の行を強調表示
-set cursorline
+"set cursorline
 
 " 対応する括弧やブレースを表示
 set showmatch
@@ -95,5 +95,18 @@ if &term =~ "xterm"
 
 endif
 
+"################
+" ブラケット付きペースト対応
+"################
 
+" Paste 開始/終了シーケンスを登録
+let &t_BE = "\e[200~"
+let &t_BD = "\e[201~"
+
+" 普通に Vim に入ったら paste モードをオフ
+autocmd VimEnter    * set nopaste
+" Insert モードに入ったら paste モードをオン
+autocmd InsertEnter * set paste
+" Insert モードを出たら paste モードをオフ
+autocmd InsertLeave * set nopaste
 
