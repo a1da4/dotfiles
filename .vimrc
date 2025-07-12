@@ -10,13 +10,13 @@ scriptencoding utf-8
 set number
 
 " 現在の行を強調表示
-"set cursorline
+set cursorline
 
 " 対応する括弧やブレースを表示
 set showmatch
 set matchtime=1
 
-" ステータス業を常に表示
+" ステータス行を常に表示
 set laststatus=2
 
 " 省略されずに表示
@@ -36,77 +36,44 @@ set title
 set noerrorbells
 set belloff=all
 
-" タブを押した時の文字幅
-set expandtab
-set tabstop=4
-set softtabstop=4
+"#######################
+" インデントとタブ設定
+"#######################
 
-" インデント
-set smartindent
-set autoindent
-set shiftwidth=4
+set noexpandtab       " タブ文字を使う（スペースに変換しない）
+set tabstop=4         " タブ1個 = 4文字ぶんの表示
+set softtabstop=4     " タブキーの動作も4文字相当
+set shiftwidth=4      " 自動インデントも4文字分
+set smartindent       " スマートなインデント
+set autoindent        " 前の行に合わせて自動インデント
 
-" Undo, Redo の永続 
+" Pythonファイル用の設定（念のため明示）
+autocmd FileType python setlocal noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+
+"################
+" Undo設定
+"################
 if has('persistent_undo')
 	let undo_path = expand('~/.vim/undo')
-	exe 'set undodir=' .. undo_path
+	if !isdirectory(undo_path)
+		call mkdir(undo_path, "p")
+	endif
+	set undodir=~/.vim/undo
 	set undofile
 endif
 
-" 入力し、再び入力モードに戻った際の削除に対応
+" バックスペースを自然に使えるように
 set backspace=indent,eol,start
-
 
 "################
 " 検索
 "################
 
-" 1文字ごとに検索
-set incsearch
+set incsearch         " インクリメンタル検索
+set ignorecase        " 小文字で検索すれば大文字もヒット
+set smartcase         " 大文字を含むと区別する
+set hlsearch          " 検索結果をハイライト
 
-" 大文字小文字を区別しない
-set ignorecase
-
-" クエリに大文字を含んでいたら区別
-set smartcase
-
-" 結果をハイライト
-set hlsearch
-
-" ESCキー2度押しでハイライトの切り替え
+" ESC を2回押すとハイライト解除
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
-
-
-"###############
-" ペースト指定
-"###############
-
-if &term =~ "xterm"
-    let &t_SI .= "\e[?2004h"
-    let &t_EI .= "\e[?2004l"
-    let &pastetoggle = "\e[201~"
-
-    function XTermPasteBegin(ret)
-        set paste
-        return a:ret
-    endfunction
-
-    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
-
-endif
-
-"################
-" ブラケット付きペースト対応
-"################
-
-" Paste 開始/終了シーケンスを登録
-let &t_BE = "\e[200~"
-let &t_BD = "\e[201~"
-
-" 普通に Vim に入ったら paste モードをオフ
-autocmd VimEnter    * set nopaste
-" Insert モードに入ったら paste モードをオン
-autocmd InsertEnter * set paste
-" Insert モードを出たら paste モードをオフ
-autocmd InsertLeave * set nopaste
 
